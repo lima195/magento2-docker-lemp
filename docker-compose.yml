@@ -4,7 +4,8 @@ services:
     container_name: app_nginx
     image: nginx:latest
     volumes:
-     - ./nginx_conf/default.conf:/etc/nginx/conf.d/default.conf
+     - ./nginx_conf/magento.conf:/etc/nginx/conf.d/default.conf
+     # - ./nginx_conf/laravel.conf:/etc/nginx/conf.d/laravel.conf
      - ../www:/usr/share/nginx/www
     working_dir: /usr/share/nginx/www
     ports:
@@ -25,7 +26,8 @@ services:
     volumes:
      - ../www:/usr/share/nginx/www
      - ./etc/php_ini/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-     - ./etc/php_ini/php.ini:/usr/local/etc/php/php.ini
+     - './composer/auth.json:/home/john/.composer/auth.json'
+     - './etc/sh/cp-files.sh:/home/john/cp-files.sh'
     working_dir: /usr/share/nginx/www
 
   db:
@@ -50,12 +52,12 @@ services:
     links:
       - db
 
-  assets:
-    container_name: app_assets
-    build:
-      context: .
-      dockerfile: ./assets/Dockerfile
-    volumes:
-     - ../www:/usr/share/nginx/www
-    working_dir: /usr/share/nginx/www
-    tty: true
+  # assets:
+  #   container_name: app_assets
+  #   build:
+  #     context: .
+  #     dockerfile: ./assets/Dockerfile
+  #   volumes:
+  #    - ../www:/usr/share/nginx/www
+  #   working_dir: /usr/share/nginx/www
+  #   tty: true
