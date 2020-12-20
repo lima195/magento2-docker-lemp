@@ -23,6 +23,12 @@
 - `docker-compose up -d;`
 - check your http://localhost/
 
+### Init new magento 2.3.4 project
+
+`wget https://raw.githubusercontent.com/lima195/docker-lemp/master/new-project.sh`
+`chmod +x new-project.sh;`
+`./new-project.sh magento-new-project-name;`
+
 ---
 
 ### PHP Extensions:
