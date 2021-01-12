@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   nginx:
-    container_name: app_nginx
+    container_name: laravel_nginx
     image: nginx:latest
     volumes:
      - ./nginx_conf/default.conf:/etc/nginx/conf.d/default.conf
@@ -14,12 +14,12 @@ services:
       - 443
     links:
       # - db
-      - php:app_php
+      - php:laravel_php
     depends_on:
       - php
 
   php:
-    container_name: app_php
+    container_name: laravel_php
     image: lima195/php-fpm7.2:1.0
     user: john
     volumes:
@@ -29,7 +29,7 @@ services:
     working_dir: /usr/share/nginx/www
 
   db:
-    container_name: app_mysql
+    container_name: laravel_mysql
     image: mysql:5.7
     command: --default-authentication-plugin=mysql_native_password
     volumes:
@@ -43,15 +43,15 @@ services:
       - 33066:3306
 
   adminer:
-    container_name: app_adminer
+    container_name: laravel_adminer
     image: adminer
     ports:
-      - 8080:8080
+      - 8888:8080
     links:
       - db
 
   assets:
-    container_name: app_assets
+    container_name: laravel_assets
     build:
       context: .
       dockerfile: ./assets/Dockerfile
