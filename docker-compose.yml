@@ -21,7 +21,7 @@ services:
 
   php:
     container_name: app_php
-    image: lima195/php-fpm7.2:1.0
+    image: lima195/php-fpm7.4:stable
     user: john
     volumes:
      - ../www:/usr/share/nginx/www
@@ -51,6 +51,42 @@ services:
       - 8080:8080
     links:
       - db
+
+  db:
+    container_name: app_mysql
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./volumes/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: app
+      MYSQL_PASSWORD: app
+      MYSQL_DATABASE: app
+    ports:
+      - 33066:3306
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.0
+    container_name: app_elasticsearch
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+      - ELASTIC_PASSWORD=app
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - ./volumes/elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
 
   # assets:
   #   container_name: app_assets

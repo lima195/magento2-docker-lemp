@@ -6,10 +6,14 @@ docker-compose exec -u root php chown john:john /usr/share/nginx/www -R;
 bin/fix-permissions;
 # Remove all project
 bin/cli rm -rf * /usr/share/nginx/www;
-bin/composer-prestissimo;
+#bin/composer-prestissimo;
 
+bin/cli composer require magento/composer-root-update-plugin=~1.0 --no-update
 bin/cli composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition="$@";
 bin/cli /home/john/cp-files.sh;
 
 docker-compose exec -u root php chmod 777 -R /usr/share/nginx/www/var;
 docker-compose exec -u root php chmod 777 -R /usr/share/nginx/www/pub;
+
+docker-compose down;
+docker-compose up -d;
