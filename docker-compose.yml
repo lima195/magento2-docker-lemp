@@ -72,7 +72,7 @@ services:
     environment:
       - xpack.security.enabled=false
       - discovery.type=single-node
-      - ELASTIC_PASSWORD=app
+      # - ELASTIC_PASSWORD=app
     ulimits:
       memlock:
         soft: -1
