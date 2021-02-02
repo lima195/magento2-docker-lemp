@@ -3,7 +3,7 @@
 source env/db.env
 source env/domain.env
 #docker-compose exec -T db mysql --host=${MYSQL_HOST} --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} ${MYSQL_DATABASE} < "$@"
-mysql --host=${MYSQL_HOST} --user=root --password=${MYSQL_ROOT_PASSWORD} ${MYSQL_DATABASE} < "$@"
+mysql --host=${MYSQL_HOST} --port=${MYSQL_PORT} --user=root --password=${MYSQL_ROOT_PASSWORD} ${MYSQL_DATABASE} < "$@"
 
 ## Dumping
 # docker-compose exec db mysqldump -hdb -u magento -pmagento magento > ../backup_magento.sql
