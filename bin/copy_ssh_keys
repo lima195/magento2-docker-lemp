@@ -1,0 +1,5 @@
+#!/bin/bash
+docker cp ~/.ssh/id_rsa app_php:/home/john/.ssh/id_rsa;
+docker cp ~/.ssh/id_rsa.pub app_php:/home/john/.ssh/id_rsa.pub;
+docker-compose exec php chmod 400 /home/john/.ssh/id_rsa;
+docker-compose exec php chmod 400 /home/john/.ssh/id_rsa.pub;
