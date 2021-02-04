@@ -31,6 +31,7 @@ RUN apt-get update \
         freetds-dev \
 		libssl-dev \
         libxslt-dev \
+        libwebp-dev \
 		openssl
 
 # Install Composer
@@ -40,7 +41,7 @@ RUN curl -sS https://getcomposer.org/installer | php \
     && composer global require hirak/prestissimo --no-plugins --no-scripts
 
 # Install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+RUN docker-php-ext-configure gd --with-webp-dir=/usr/include/ --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install \
             iconv \
             mbstring \
