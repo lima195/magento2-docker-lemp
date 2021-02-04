@@ -21,7 +21,7 @@ services:
 
   php:
     container_name: app_php
-    image: lima195/php-fpm7.2:1.0
+    image: lima195/php-fpm7.2:magento234
     user: john
     volumes:
      - ../www:/usr/share/nginx/www

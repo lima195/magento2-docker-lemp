@@ -35,8 +35,9 @@ RUN apt-get update \
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php \
-	&& mv composer.phar /usr/local/bin/composer \
-	&& composer global require hirak/prestissimo --no-plugins --no-scripts
+    && mv composer.phar /usr/local/bin/composer \
+    && composer self-update 1.10.19 \
+    && composer global require hirak/prestissimo --no-plugins --no-scripts
 
 # Install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
@@ -77,6 +78,15 @@ RUN apt-get clean \
 
 COPY ./etc/php_ini/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 COPY ./etc/php_ini/php.ini /usr/local/etc/php/php.ini
+
+RUN apt-get update \
+    && apt-get install -y \
+        librabbitmq-dev \
+        libssh-dev \
+    && pecl install amqp \
+    && docker-php-ext-enable amqp \
+    && docker-php-ext-install sockets \
+    && docker-php-ext-enable sockets
 
 ## Fixing owner permissions
 RUN chown -R john:john $HOME
