@@ -1,7 +1,7 @@
 #!/bin/bash
 [ -z "$1" ] && echo "Please specify a CLI command (ex. ls)" && exit
 source env/db.env
-source env/domain.env
+#source env/domain.env
 #docker-compose exec -T db mysql --host=${MYSQL_HOST} --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} ${MYSQL_DATABASE} < "$@"
 mysql --host=${MYSQL_HOST} --port=${MYSQL_PORT} --user=root --password=${MYSQL_ROOT_PASSWORD} ${MYSQL_DATABASE} < "$@"
 
