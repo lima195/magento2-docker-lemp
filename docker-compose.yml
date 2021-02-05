@@ -76,6 +76,13 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
+  
+  redis:
+    container_name: app_redis
+    image: redis
+    command: redis-server --requirepass magento
+    ports:
+      - "6379:6379"
 
   # assets:
   #   container_name: app_assets
