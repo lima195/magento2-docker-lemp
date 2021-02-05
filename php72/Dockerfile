@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
         vim \
         git \
         apt-utils \
+        openssh-server \
         unzip
 
 # Install PHP extensions deps

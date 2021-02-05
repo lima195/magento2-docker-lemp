@@ -21,6 +21,9 @@ services:
 
   php:
     container_name: app_php
+    # build:
+    #   context: .
+    #   dockerfile: ./php72/Dockerfile
     image: lima195/php-fpm7.2:magento234
     user: john
     volumes:
