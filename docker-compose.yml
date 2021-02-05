@@ -24,12 +24,12 @@ services:
     # build:
     #   context: .
     #   dockerfile: ./php72/Dockerfile
-    image: lima195/php-fpm7.2:magento234
+    image: lima195/php-fpm7.2:magento234xdebug
     user: john
     volumes:
      - ../www:/usr/share/nginx/www
      - ./etc/php_ini/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-     - './composer/auth.json:/home/john/.composer/auth.json'
+    #  - './composer/auth.json:/home/john/.composer/auth.json'
      - './etc/sh/cp-files.sh:/home/john/cp-files.sh'
     working_dir: /usr/share/nginx/www
 
