@@ -56,21 +56,16 @@ services:
       - db
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.13
     container_name: app_elasticsearch
     environment:
-      - xpack.security.enabled=false
-      - discovery.type=single-node
-      # - ELASTIC_PASSWORD=app
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
         soft: -1
         hard: -1
-      nofile:
-        soft: 65536
-        hard: 65536
-    cap_add:
-      - IPC_LOCK
     volumes:
       - ./volumes-elasticsearch/elasticsearch:/usr/share/elasticsearch/data
     ports:
