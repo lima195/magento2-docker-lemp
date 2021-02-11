@@ -55,29 +55,29 @@ services:
     links:
       - db
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.13
-    container_name: app_elasticsearch
-    environment:
-      - cluster.name=docker-cluster
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - ./volumes-elasticsearch/elasticsearch:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
-      - 9300:9300
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:6.8.13
+  #   container_name: app_elasticsearch
+  #   environment:
+  #     - cluster.name=docker-cluster
+  #     - bootstrap.memory_lock=true
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
+  #   volumes:
+  #     - ./volumes-elasticsearch/elasticsearch:/usr/share/elasticsearch/data
+  #   ports:
+  #     - 9200:9200
+  #     - 9300:9300
   
-  redis:
-    container_name: app_redis
-    image: redis
-    command: redis-server --requirepass magento
-    ports:
-      - "6379:6379"
+  # redis:
+  #   container_name: app_redis
+  #   image: redis
+  #   command: redis-server --requirepass magento
+  #   ports:
+  #     - "6379:6379"
 
   # assets:
   #   container_name: app_assets
