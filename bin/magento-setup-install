@@ -1,6 +1,6 @@
 #!/bin/bash
 bin/magento setup:install \
-	--base-url="http://localhost/" \
+	--base-url="http://mage.com/" \
 	--db-host="db" \
 	--db-name="app" \
 	--db-password="root" \

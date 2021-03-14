@@ -29,6 +29,8 @@ services:
      - './composer/auth.json:/home/john/.composer/auth.json'
      - './etc/sh/cp-files.sh:/home/john/cp-files.sh'
     working_dir: /usr/share/nginx/www
+    expose:
+      - 35729
 
   adminer:
     container_name: app_adminer

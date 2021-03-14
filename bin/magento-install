@@ -8,7 +8,7 @@ bin/fix-permissions;
 bin/cli rm -rf * /usr/share/nginx/www;
 #bin/composer-prestissimo;
 
-bin/cli composer require magento/composer-root-update-plugin=~1.0 --no-update
+#bin/cli composer require magento/composer-root-update-plugin=~1.0 --no-update
 bin/cli composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition="$@";
 bin/cli /home/john/cp-files.sh;
 
