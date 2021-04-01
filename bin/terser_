@@ -1,0 +1,3 @@
+#!/bin/bash
+bin/cli THEME_FOLDER=('"$@"');
+bin/cli ${THEME_FOLDER[@]} \( -name '*.js' -not -name '*.min.js' -not -name 'core-bundle.js' -not -name 'requirejs-bundle-config.js' \) -exec terser \{} -c -m reserved=['$','jQuery','define','require','exports'] -o \{} \;

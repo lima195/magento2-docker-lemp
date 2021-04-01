@@ -1,0 +1,3 @@
+#!/bin/bash
+
+bin/cli find pub/static/frontend/"$@"/ \( -name '*.js' -not -name '*.min.js' -not -name 'core-bundle.js' -not -name 'requirejs-bundle-config.js' \) -exec terser \{} -c -m reserved=['$','jQuery','define','require','exports'] -o \{} \;

@@ -1,0 +1,4 @@
+#!/bin/bash
+bin/cli terser "$@"
+
+#ex: bin/terser --version
