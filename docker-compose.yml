@@ -15,9 +15,11 @@ services:
       - 443
     links:
       # - db
-      - php:app_php
+      - php:app_php@
     depends_on:
       - php
+    networks:
+      - esnet
 
   php:
     container_name: app_php
@@ -31,6 +33,8 @@ services:
     working_dir: /usr/share/nginx/www
     expose:
       - 35729
+    networks:
+      - esnet
 
   adminer:
     container_name: app_adminer
@@ -39,6 +43,8 @@ services:
       - 8080:8080
     links:
       - db
+    networks:
+      - esnet
 
   db:
     container_name: app_mysql
@@ -51,8 +57,8 @@ services:
       MYSQL_USER: app
       MYSQL_PASSWORD: app
       MYSQL_DATABASE: app
-    ports:
-      - 33066:3306
+    networks:
+      - esnet
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.6.0
@@ -71,8 +77,17 @@ services:
     cap_add:
       - IPC_LOCK
     volumes:
-      - ./volumes/elasticsearch:/usr/share/elasticsearch/data
+      - esdata1:/usr/share/elasticsearch/data
+    networks:
+      - esnet
     # command: sh -c "[ -d ./elasticsearchss ] || mkdir ./elasticsearchss"
-    ports:
-      - 9200:9200
-      - 9300:9300
+    # ports:
+    #   - 9200:9200
+    #   - 9300:9300
+    
+volumes:
+  esdata1:
+    driver: local
+
+networks:
+  esnet:
