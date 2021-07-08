@@ -95,6 +95,56 @@ RUN apt-get update \
     && docker-php-ext-install sockets \
     && docker-php-ext-enable sockets
 
+
+# Install mailhog
+
+RUN apt-get -y install golang-go \
+    && go get github.com/mailhog/MailHog
+
+# Init mailhog
+# RUN $HOME/go/bin/MailHog
+
+# Install mhsendmail
+RUN go get github.com/mailhog/mhsendmail \
+    && ln -s  ~/go/bin/mhsendmail /usr/bin/mhsendmail
+# mhsendmail -h
+
+# Install node and npm
+# replace shell with bash so we can source files
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+RUN mkdir /usr/local/nvm
+
+# update the repository sources list
+# and install dependencies
+RUN apt-get update \
+    && apt-get install -y curl \
+    && apt-get -y autoclean
+
+# nvm environment variables
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION v14.16.0
+
+# install nvm
+# https://github.com/creationix/nvm#install-script
+RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+
+# install node and npm
+RUN source $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm alias default $NODE_VERSION \
+    && nvm use default
+
+# add node and npm to path so the commands are available
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+RUN apt-get install -y npm
+
+RUN nodejs -v
+
+# Magento Cache Clean
+RUN composer require --dev mage2tv/magento-cache-clean
+
 ## Fixing owner permissions
 RUN chown -R john:john $HOME
 
