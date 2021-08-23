@@ -1,0 +1,4 @@
+#!/bin/bash
+bin/magento config:set system/smtp/port 1025;
+bin/magento config:set system/smtp/disable 0;
+docker-compose exec php /home/john/go/bin/MailHog

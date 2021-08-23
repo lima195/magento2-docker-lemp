@@ -23,16 +23,21 @@ services:
 
   php:
     container_name: app_php
-    image: lima195/php-fpm7.4:stable
+    image: lima195/php-fpm7.4:mailhog
+    # build:
+    #     context: .
+    #     dockerfile: ./php74/Dockerfile
     user: john
     volumes:
      - ../www:/usr/share/nginx/www
      - ./etc/php_ini/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+     - ./etc/php_ini/php.ini:/usr/local/etc/php/php.ini
      - './composer/auth.json:/home/john/.composer/auth.json'
      - './etc/sh/cp-files.sh:/home/john/cp-files.sh'
     working_dir: /usr/share/nginx/www
-    expose:
-      - 35729
+    # command: sh -c "/home/john/go/bin/MailHog"
+    ports:
+      - 8025:8025
     networks:
       - esnet
 
@@ -84,9 +89,23 @@ services:
     # ports:
     #   - 9200:9200
     #   - 9300:9300
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - esdata2:/var/lib/rabbitmq/
+        - esdata2:/var/log/rabbitmq
+    networks:
+        - esnet
     
 volumes:
   esdata1:
+    driver: local
+  esdata2:
     driver: local
 
 networks:
