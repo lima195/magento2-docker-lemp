@@ -23,10 +23,10 @@ services:
 
   php:
     container_name: app_php
-    # image: lima195/php-fpm7.4:stable
-    build:
-        context: .
-        dockerfile: ./php74/Dockerfile
+    image: lima195/php-fpm7.4:mailhog
+    # build:
+    #     context: .
+    #     dockerfile: ./php74/Dockerfile
     user: john
     volumes:
      - ../www:/usr/share/nginx/www
@@ -85,13 +85,23 @@ services:
       - esdata1:/usr/share/elasticsearch/data
     networks:
       - esnet
-    # command: sh -c "[ -d ./elasticsearchss ] || mkdir ./elasticsearchss"
-    # ports:
-    #   - 9200:9200
-    #   - 9300:9300
+  
+  rabbitmq:
+      image: rabbitmq:3-management-alpine
+      container_name: 'app_rabbitmq'
+      ports:
+          - 5672:5672
+          - 15672:15672
+      volumes:
+          - esdata2:/var/lib/rabbitmq/
+          - esdata2:/var/log/rabbitmq
+      networks:
+          - esnet
     
 volumes:
   esdata1:
+    driver: local
+  esdata2:
     driver: local
 
 networks:
