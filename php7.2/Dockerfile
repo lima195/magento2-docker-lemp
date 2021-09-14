@@ -69,7 +69,7 @@ RUN docker-php-ext-install \
 RUN pecl install -f \
     amqp \
     mcrypt-1.0.3 \
-    xdebug-2.9.8
+    xdebug-3.0.4
 
 # Enable docker php extensions
 RUN docker-php-ext-enable \
