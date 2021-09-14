@@ -1,9 +1,9 @@
 #!/bin/bash
 source ./.env
 
-mv ${PHP_VERSION}/docker-php-ext-xdebug.ini ${PHP_VERSION}/docker-php-ext-xdebug-bak.ini;
-mv ${PHP_VERSION}/docker-php-ext-xdebug-off.ini ${PHP_VERSION}/docker-php-ext-xdebug.ini;
-mv ${PHP_VERSION}/docker-php-ext-xdebug-bak.ini ${PHP_VERSION}/docker-php-ext-xdebug-off.ini;
+mv php/${PHP_VERSION}/docker-php-ext-xdebug.ini php/${PHP_VERSION}/docker-php-ext-xdebug-bak.ini;
+mv php/${PHP_VERSION}/docker-php-ext-xdebug-off.ini php/${PHP_VERSION}/docker-php-ext-xdebug.ini;
+mv php/${PHP_VERSION}/docker-php-ext-xdebug-bak.ini php/${PHP_VERSION}/docker-php-ext-xdebug-off.ini;
 
 docker-compose down;
 docker-compose up -d;

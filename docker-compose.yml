@@ -1,3 +1,4 @@
+# Docker Lemp for Magento applications
 version: '3.1'
 
 services:
@@ -6,49 +7,76 @@ services:
     image: nginx:latest
     links:
       - php:app_php@
+    volumes:
+      - ./nginx/magento.conf:/etc/nginx/conf.d/default.conf:ro,cached
+      - ${WWW_DIR}:${WORKING_DIR}
     depends_on:
       - php
       - db
+    networks:
+      - esnet
+    ports:
+      - 80:80
 
   php:
     container_name: app_php
     image: lima195/php-fpm-${PHP_VERSION}:lastest
+    volumes:
+      - ./php/${PHP_VERSION}/${LOCAL_PHP_INI}:${DOCKER_PHP_INI}
+      - ./php/${PHP_VERSION}/${LOCAL_PHP_XDEBUG_INI}:${DOCKER_PHP_XDEBUG_INI}
+      - ${WWW_DIR}:${WORKING_DIR}
     depends_on:
       - db
+    networks:
+      - esnet
+    ports:
+      - 8025:8025
 
   adminer:
     container_name: app_adminer
     image: adminer
     links:
       - db
+    networks:
+      - esnet
+    ports:
+      - 8080:8080
 
   db:
     container_name: app_mysql
     image: mysql:${MYSQL_VERSION}
-    command: --default-authentication-plugin=mysql_native_password
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - ./volumes/mysql:/var/lib/mysql
+    networks:
+      - esnet
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.6.0
     container_name: app_elasticsearch
-    environment:
-      - xpack.security.enabled=false
-      - discovery.type=single-node
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-      nofile:
-        soft: 65536
-        hard: 65536
-    cap_add:
-      - IPC_LOCK
+    volumes:
+      - elasticsearchvolume:/usr/share/elasticsearch/data
+    networks:
+      - esnet
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: app_rabbitmq
-    
+    networks:
+      - esnet
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmqvolume:/var/lib/rabbitmq/
+      - rabbitmqvolume:/var/log/rabbitmq
+
+volumes:
+  elasticsearchvolume:
+    driver: local
+  rabbitmqvolume:
+    driver: local
+  mysqlvolume:
+    driver: local
+
+networks:
+  esnet:
