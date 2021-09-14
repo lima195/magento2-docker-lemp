@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Mailhog smtp
+bin/magento config:set system/smtp/port 1025;
+bin/magento config:set system/smtp/disable 0;
+
+bin/magento config:set catalog/search/elasticsearch7_server_hostname 'elasticsearch'
+bin/magento config:set catalog/search/elasticsearch7_server_port 9200
+bin/magento config:set catalog/search/elasticsearch7_index_prefix 'magento2'
+bin/magento config:set catalog/search/elasticsearch7_enable_auth 0
+bin/magento config:set catalog/search/elasticsearch7_server_timeout 15
+bin/magento config:set catalog/search/elasticsearch7_minimum_should_match 3
+
+# FPC
+bin/magento config:set system/full_page_cache/caching_application 1
+
+# Disable TwoFactorAuth
+# bin/magento module:disable Magento_TwoFactorAuth
+
+# URL
+bin/magento config:set --scope=websites --scope-code=base web/unsecure/base_url 'http://mage.com/'
+bin/magento config:set --scope=websites --scope-code=base web/secure/base_url 'http://mage.com/'
+bin/magento config:set --scope=websites --scope-code=base web/unsecure/base_link_url 'http://mage.com/'
+bin/magento config:set --scope=websites --scope-code=base web/unsecure/base_static_url ''
+bin/magento config:set --scope=websites --scope-code=base web/unsecure/base_media_url ''
+bin/magento config:set --scope=websites --scope-code=base web/secure/base_static_url ''
+bin/magento config:set --scope=websites --scope-code=base web/secure/base_media_url ''
+bin/magento config:set --scope=websites --scope-code=base web/secure/use_in_frontend 0
+bin/magento config:set --scope=websites --scope-code=base web/secure/use_in_adminhtml 0
+bin/magento config:set --scope=websites --scope-code=base system/full_page_cache/caching_application 1
+
+
+#SQL
+
+#UPDATE `core_config_data` SET `value` = '1' WHERE `path` = 'system/full_page_cache/caching_application';
+#UPDATE `core_config_data` SET `value` = '1025' WHERE `path` = 'system/smtp/port';
+#UPDATE `core_config_data` SET `value` = '0' WHERE `path` = 'system/smtp/disable';
+
+# Elasticsearch
+#UPDATE `core_config_data` SET `value` = 'elasticsearch' WHERE `path` = 'catalog/search/elasticsearch7_server_hostname';
+#UPDATE `core_config_data` SET `value` = '9200' WHERE `path` = 'catalog/search/elasticsearch7_server_port';
+#UPDATE `core_config_data` SET `value` = 'magento2' WHERE `path` = 'catalog/search/elasticsearch7_index_prefix';
+#UPDATE `core_config_data` SET `value` = '0' WHERE `path` = 'catalog/search/elasticsearch7_enable_auth';
+#UPDATE `core_config_data` SET `value` = '15' WHERE `path` = 'catalog/search/elasticsearch7_server_timeout';
+#UPDATE `core_config_data` SET `value` = '3' WHERE `path` = 'catalog/search/elasticsearch7_minimum_should_match';

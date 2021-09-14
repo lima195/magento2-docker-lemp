@@ -1,0 +1,90 @@
+version: "3.1"
+
+services:
+  nginx:
+    working_dir: ${WORKING_DIR}
+    ports:
+      - 80:80
+    networks:
+      - esnet
+    volumes:
+      - ./nginx_conf/magento.conf:/etc/nginx/conf.d/default.conf:ro,cached
+      # App stuff
+      - ${WWW_DIR}:${WORKING_DIR}
+      #- appsource:${WORKING_DIR}:cached
+      #- ${WWW_DIR}/nginx.conf.sample:${WORKING_DIR}/nginx.conf.sample:cached
+      #- ${WWW_DIR}/app/code:${WORKING_DIR}/app/code:cached
+      #- ${WWW_DIR}/app/design:${WORKING_DIR}/app/design:cached
+      #- ${WWW_DIR}/app/etc:${WORKING_DIR}/app/etc:cached
+      #- ${WWW_DIR}/composer.json:${WORKING_DIR}/composer.json:cached
+      #- ${WWW_DIR}/composer.lock:${WORKING_DIR}/composer.lock:cached
+      #- ${WWW_DIR}/lib:${WORKING_DIR}/lib:cached
+      #- ${WWW_DIR}/auth.json:${WORKING_DIR}/auth.json:cached
+      #- ${WWW_DIR}/vendor:${WORKING_DIR}/vendor:cached
+
+  php:
+    # build:
+    #   context: .
+    #   dockerfile: ./php${PHP_VERSION}/Dockerfile
+    # command: sh -c "/home/john/go/bin/MailHog"
+    user: john
+    working_dir: ${WORKING_DIR}
+    ports:
+      - 8025:8025
+    networks:
+      - esnet
+    volumes:
+      - ./php${PHP_VERSION}/${LOCAL_PHP_INI}:${DOCKER_PHP_INI}
+      - ./php${PHP_VERSION}/${LOCAL_PHP_XDEBUG_INI}:${DOCKER_PHP_XDEBUG_INI}
+      # App stuff
+      - ${WWW_DIR}:${WORKING_DIR}
+      #- appsource:${WORKING_DIR}:cached
+      #- ${WWW_DIR}/nginx.conf.sample:${WORKING_DIR}/nginx.conf.sample:cached
+      #- ${WWW_DIR}/app/code:${WORKING_DIR}/app/code:cached
+      #- ${WWW_DIR}/app/design:${WORKING_DIR}/app/design:cached
+      #- ${WWW_DIR}/app/etc:${WORKING_DIR}/app/etc:cached
+      #- ${WWW_DIR}/composer.json:${WORKING_DIR}/composer.json:cached
+      #- ${WWW_DIR}/composer.lock:${WORKING_DIR}/composer.lock:cached
+      #- ${WWW_DIR}/lib:${WORKING_DIR}/lib:cached
+      #- ${WWW_DIR}/auth.json:${WORKING_DIR}/auth.json:cached
+      #- ${WWW_DIR}/vendor:${WORKING_DIR}/vendor:cached
+
+  adminer:
+    ports:
+      - 8080:8080
+    networks:
+      - esnet
+
+  db:
+    networks:
+      - esnet
+    volumes:
+      - mysqlvolume:/var/lib/mysql
+
+  elasticsearch:
+    networks:
+      - esnet
+    volumes:
+      - elasticsearchvolume:/usr/share/elasticsearch/data
+
+  rabbitmq:
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - esnet
+    volumes:
+      - rabbitmqvolume:/var/lib/rabbitmq/
+      - rabbitmqvolume:/var/log/rabbitmq
+
+volumes:
+  elasticsearchvolume:
+    driver: local
+  rabbitmqvolume:
+    driver: local
+  mysqlvolume:
+    driver: local
+  appsource:
+
+networks:
+  esnet:
