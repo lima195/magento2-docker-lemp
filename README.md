@@ -16,7 +16,7 @@
 ### Support
 
 | PHP Version | 5.6 | 7.2 | 7.3 | 7.4 |
-| - | - | - | - | - | - |
+| - | - | - | - | - |
 | Composer: v1.10.8 | YES | YES | YES | YES |
 | Node: 12.20.0 | NO | YES | YES | YES |
 | npm: 6.14.8 | NO | YES | YES | YES |
