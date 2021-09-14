@@ -3,10 +3,3 @@
 source ./.env
 
 docker-compose exec -T db mysql -u root -p${MYSQL_ROOT_PASSWORD} ${MYSQL_DATABASE} < "$@";
-
-## Dumping
-# docker-compose exec db mysqldump -hdb -u magento -pmagento magento > ../backup_magento.sql
-
-# Importing
-# docker-compose exec -T db mysql -hdb -u root -proot app < ../backup_magento.sql
-# bin/mysql-import ../backup.sql
