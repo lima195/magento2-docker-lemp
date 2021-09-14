@@ -12,6 +12,7 @@
 * Elasticsearch: 7.6.0
 * RabbitMQ: 3
 * MailHog
+* Redis
 
 ### Support
 
@@ -24,6 +25,7 @@
 | Elasticsearch: 7.6.0 | YES | YES | YES | YES |
 | RabbitMQ: 3 | YES | YES | YES | YES |
 | MailHog | NO | YES | YES | YES |
+| Redis | YES | YES | YES | YES |
 
 ### Requeriments
 
