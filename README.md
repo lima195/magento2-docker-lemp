@@ -4,14 +4,26 @@
 
 * Nginx:lastest
 * PHP-FPM versions available: 5.6, 7.2, 7.3 & 7.4
-* Composer v1.10.8
+* Composer: v1.10.8
 * Mysql versions available: 5.7 & 8.0
-* Node:12.20.0
-* npm:6.14.8
-* Adminer 4.7.6
-* Elasticsearch 7.6.0
-* RabbitMQ 3
+* Node: 12.20.0
+* npm: 6.14.8
+* Adminer: 4.7.6
+* Elasticsearch: 7.6.0
+* RabbitMQ: 3
 * MailHog
+
+### Support
+
+| PHP Version | 5.6 | 7.2 | 7.3 | 7.4 |
+| - | - | - | - | - | - |
+| Composer: v1.10.8 | YES | YES | YES | YES |
+| Node: 12.20.0 | NO | YES | YES | YES |
+| npm: 6.14.8 | NO | YES | YES | YES |
+| Adminer: 4.7.6 | YES | YES | YES | YES |
+| Elasticsearch: 7.6.0 | YES | YES | YES | YES |
+| RabbitMQ: 3 | YES | YES | YES | YES |
+| MailHog | NO | YES | YES | YES |
 
 ### Requeriments
 
@@ -129,12 +141,3 @@ Configurations on phpstorm:
 
 * Server: Choose that server that you created (My Debug Server)
 * IDE KEY: `docker`
-
-
-### PHP 5.6 dosen't support:
-
-* MailHog
-* Node
-* npm
-
-Only php >= 7.2 does support all items.
