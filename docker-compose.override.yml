@@ -23,9 +23,9 @@ services:
       #- ${WWW_DIR}/vendor:${WORKING_DIR}/vendor:cached
 
   php:
-    build:
-      context: .
-      dockerfile: ./php${PHP_VERSION}/Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: ./php${PHP_VERSION}/Dockerfile
     # command: sh -c "/home/john/go/bin/MailHog"
     user: john
     working_dir: ${WORKING_DIR}

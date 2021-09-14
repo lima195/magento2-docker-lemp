@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 # PHP
 ##
 
-# Install PHP extensions deps
+# Install PHP extensions dependences
 RUN apt-get update \
     && apt-get install --no-install-recommends -y \
         libfreetype6-dev \
