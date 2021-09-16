@@ -82,9 +82,9 @@ services:
     networks:
       - esnet
     ports:
-      - "6379:6379"
-      - "6380:6380"
-      - "6381:6381"
+      - 6379:6379
+      - 6380:6380
+      - 6381:6381
 
 volumes:
   elasticsearchvolume:

@@ -6,11 +6,11 @@ services:
     working_dir: ${WORKING_DIR}
 
   php:
+    # command: sh -c "/home/john/go/bin/MailHog"
     # Develop porpuses
     # build:
     #   context: .
     #   dockerfile: ./php/${PHP_VERSION}/Dockerfile
-    # command: sh -c "/home/john/go/bin/MailHog"
     user: john
     working_dir: ${WORKING_DIR}
 
