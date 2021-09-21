@@ -3,6 +3,9 @@ version: "3.1"
 
 services:
   nginx:
+    # build:
+    #   context: .
+    #   dockerfile: ./nginx/${NGINX_VERSION}/Dockerfile
     working_dir: ${WORKING_DIR}
 
   php:

@@ -52,7 +52,7 @@ services:
 
   elasticsearch:
     container_name: app_elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}
     volumes:
       - elasticsearchvolume:/usr/share/elasticsearch/data
     networks:
@@ -75,7 +75,7 @@ services:
 
   redis:
     container_name: app_redis
-    image: redis
+    image: redis:${REDIS_VERSION}
     command: redis-server --requirepass ${REDIS_PASS}
     volumes:
       - ./volumes/redis/data:/data
