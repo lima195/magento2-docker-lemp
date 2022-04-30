@@ -1,128 +1,52 @@
 FROM php:7.4-fpm
+RUN apt-get update && apt-get install -y \
+		libfreetype6-dev \
+		libjpeg62-turbo-dev \
+		libpng-dev
 
-RUN useradd -m john \
-    && echo "john:john" | chpasswd \
-    && adduser john sudo \
-    && adduser john www-data
+RUN apt-get install --no-install-recommends -y libmcrypt-dev
+RUN apt-get install --no-install-recommends -y zlib1g-dev
+RUN apt-get install --no-install-recommends -y libicu-dev
+RUN apt-get install --no-install-recommends -y g++
+RUN apt-get install --no-install-recommends -y unixodbc-dev
+RUN apt-get install --no-install-recommends -y libxml2-dev
+RUN apt-get install --no-install-recommends -y libaio-dev
+RUN apt-get install --no-install-recommends -y freetds-dev
+RUN apt-get install --no-install-recommends -y libssl-dev
+RUN apt-get install --no-install-recommends -y libxslt-dev
+RUN apt-get install --no-install-recommends -y libwebp-dev
+RUN apt-get install --no-install-recommends -y libonig-dev
+RUN apt-get install --no-install-recommends -y libzip-dev
+RUN apt-get install --no-install-recommends -y librabbitmq-dev
+RUN apt-get install --no-install-recommends -y libssh-dev
+RUN apt-get install --no-install-recommends -y curl
 
-ARG DEBIAN_FRONTEND=noninteractive
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+	&& docker-php-ext-install -j$(nproc) gd
 
-ENV HOME /home/john
+RUN docker-php-ext-install -j$(nproc) mbstring
+RUN docker-php-ext-install -j$(nproc) xsl
+RUN docker-php-ext-install -j$(nproc) intl
+RUN docker-php-ext-install -j$(nproc) soap
+RUN docker-php-ext-install -j$(nproc) zip
+RUN docker-php-ext-install -j$(nproc) xmlrpc
+RUN docker-php-ext-install -j$(nproc) iconv
+RUN docker-php-ext-install -j$(nproc) bcmath
+RUN docker-php-ext-install -j$(nproc) mysqli
+RUN docker-php-ext-install -j$(nproc) pdo_mysql
+RUN docker-php-ext-install -j$(nproc) opcache
+RUN docker-php-ext-install -j$(nproc) sockets
 
-# Get repository and install wget and vim
-RUN apt-get update && apt-get install --no-install-recommends -y \
-        wget \
-        vim \
-        git \
-        apt-utils \
-        openssh-server \
-        unzip
-
-##
-# PHP
-##
-
-# Install PHP extensions dependences
-RUN apt-get update \
-    && apt-get install --no-install-recommends -y \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libmcrypt-dev \
-        zlib1g-dev \
-        libicu-dev \
-        g++ \
-        unixodbc-dev \
-        libxml2-dev \
-        libaio-dev \
-        freetds-dev \
-        libssl-dev \
-        libxslt-dev \
-        libwebp-dev \
-        libpng-dev \
-        libonig-dev \
-        libzip-dev \
-        librabbitmq-dev \
-        libssh-dev \
-        curl \
-        openssl
-
-# Configure PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-webp --with-jpeg 
-
-# Install docker php extensions
-RUN docker-php-ext-install \
-    iconv \
-    mbstring \
-    bcmath \
-    xsl \
-    intl \
-    gd \
-    mysqli \
-    pdo_mysql \
-    soap \
-    zip \
-    xmlrpc \
-    opcache \
-    sockets
 
 # Install pecl packages
-RUN pecl install -f \
-    amqp \
-    mcrypt \
-    xdebug
-
-# Enable docker php extensions
-RUN docker-php-ext-enable \
-    mcrypt \
-    amqp \
-    sockets \
-    bcmath \
-    xdebug
+#RUN pecl install -f \
+#    amqp \
+#    mcrypt \
+#    xdebug
+	
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer \
     && composer self-update 1.10.19 \
-    && composer global require hirak/prestissimo --no-plugins --no-scripts \
-    && composer require --dev mage2tv/magento-cache-clean
-
-##
-# Mailhog
-##
-
-# Install mailhog
-RUN apt-get -y install golang-go \
-    && go get github.com/mailhog/MailHog
-
-# Install mhsendmail
-RUN go get github.com/mailhog/mhsendmail \
-    && ln -s  ~/go/bin/mhsendmail /usr/bin/mhsendmail
-
-##
-# Node | Gulp | Grunt
-##
-
-ARG NODE_VERSION=9.11.2
-ARG NODE_PACKAGE=node-v$NODE_VERSION-linux-x64
-ARG NODE_HOME=/opt/$NODE_PACKAGE
-
-ENV NODE_PATH $NODE_HOME/lib/node_modules
-ENV PATH $NODE_HOME/bin:$PATH
-
-RUN curl https://nodejs.org/dist/v$NODE_VERSION/$NODE_PACKAGE.tar.gz | tar -xzC /opt/
-
-RUN npm install -g gulp
-RUN npm install -g grunt
-
-##
-# Owner Permissions
-##
-
-## Fixing owner permissions
-RUN chown -R john:john $HOME
-
-# Clean repository
-RUN apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-USER john
+    && composer global require hirak/prestissimo --no-plugins --no-scripts
