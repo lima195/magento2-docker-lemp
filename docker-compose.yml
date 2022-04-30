@@ -5,6 +5,10 @@ services:
   nginx:
     container_name: app_nginx
     image: nginx:latest
+    # build:
+    #   context: .
+    #   dockerfile: ./nginx/${NGINX_VERSION}/Dockerfile
+    working_dir: ${WORKING_DIR}
     links:
       - php:app_php@
     volumes:
@@ -22,6 +26,13 @@ services:
   php:
     container_name: app_php
     image: lima195/php-fpm-${PHP_VERSION}:lastest
+    # command: sh -c "/home/john/go/bin/MailHog"
+    # Develop porpuses
+    # build:
+    #   context: .
+    #   dockerfile: ./php/${PHP_VERSION}/Dockerfile
+    user: john
+    working_dir: ${WORKING_DIR}
     volumes:
       - ./php/${PHP_VERSION}/${LOCAL_PHP_INI}:${DOCKER_PHP_INI}
       - ./php/${PHP_VERSION}/${LOCAL_PHP_XDEBUG_INI}:${DOCKER_PHP_XDEBUG_INI}
@@ -46,6 +57,12 @@ services:
   db:
     container_name: app_mysql
     image: mysql:${MYSQL_VERSION}
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     volumes:
       - ./volumes/mysql:/var/lib/mysql
     networks:
@@ -56,6 +73,18 @@ services:
   elasticsearch:
     container_name: app_elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add:
+      - IPC_LOCK
     volumes:
             #- elasticsearchvolume:/usr/share/elasticsearch/data
       - ./volume-elasticsearch/data:/usr/share/elasticsearch/data
