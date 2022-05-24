@@ -1,3 +1,4 @@
 /volumes/*
 /composer/auth.json
 /elasticsearch
+/volume-elasticsearch/

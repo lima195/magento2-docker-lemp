@@ -1,40 +1,41 @@
 #!/bin/bash
-bin/magento setup:install \
-	--base-url="http://mage.com/" \
-	--db-host="db" \
-	--db-name="app" \
-	--db-password="root" \
-	--db-user="root" \
-	--admin-firstname="admin" \
-	--admin-lastname="admin" \
-	--admin-email="admin@admin.com" \
-	--admin-user="admin" \
-	--admin-password="admin123" \
-	--language="pt_BR" \
-	--currency="BRL" \
-	--timezone="America/Sao_Paulo" \
-	--use-rewrites="1" \
-	--backend-frontname="admin" \
-	--search-engine="elasticsearch7" \
-	--elasticsearch-host="elasticsearch";
+
+# bin/magento setup:install \
+# 	--base-url="http://localhost/" \
+# 	--db-host="db" \
+# 	--db-name="app" \
+# 	--db-password="root" \
+# 	--db-user="root" \
+# 	--admin-firstname="admin" \
+# 	--admin-lastname="admin" \
+# 	--admin-email="admin@admin.com" \
+# 	--admin-user="admin" \
+# 	--admin-password="admin123" \
+# 	--language="pt_BR" \
+# 	--currency="BRL" \
+# 	--timezone="America/Sao_Paulo" \
+# 	--use-rewrites="1" \
+# 	--backend-frontname="admin" \
+# 	--search-engine="elasticsearch7" \
+# 	--elasticsearch-host="elasticsearch";
 
 
 # EN_US USD
-#bin/magento setup:install \                                                      
-#	--base-url="http://mage.com" \
-#	--db-host=db \
-#	--db-name=app \
-#	--db-user=root \
-#	--db-password=root \
-#	--admin-firstname=admin \
-#	--admin-lastname=admin \
-#	--admin-email=admin@admin.com \
-#	--admin-user=pedrolima \
-#	--admin-password=Admin123! \
-#	--language=en_US \
-#	--currency=USD \
-#	--timezone=America/Chicago \
-#	--use-rewrites=1 \
-#	--search-engine=elasticsearch7 \
-#	--elasticsearch-host="elasticsearch" \
-#	--elasticsearch-port=9200
+bin/magento setup:install \
+	--base-url="http://mage.com" \
+	--db-host="db" \
+	--db-name="app" \
+	--db-user="root" \
+	--db-password="root" \
+	--admin-firstname="admin" \
+	--admin-lastname="admin" \
+	--admin-email="admin@admin.com" \
+	--admin-user="pedrolima" \
+	--admin-password="Admin123!" \
+	--language="en_US" \
+	--currency="USD" \
+	--timezone="America/Chicago" \
+	--use-rewrites="1" \
+	--search-engine="elasticsearch7" \
+	--elasticsearch-host="elasticsearch" \
+	--elasticsearch-port="9200";
